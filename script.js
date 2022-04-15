@@ -63,6 +63,10 @@ function renderizar(texto) {
      `
     }
   }
+  document
+    .querySelector('.chat')
+    .querySelector('div:last-child')
+    .scrollIntoView({ behavior: 'smooth' })
 }
 function enviarMensagem() {
   let mensagem = document.querySelector('input')

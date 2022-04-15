@@ -8,11 +8,35 @@ body{
   justify-content: center;
   align-items: center;
 }
+.escondido{
+  display: none;
+}
+.menu{
+  max-width: 400px;
+  width: 100%;
+  height: 667px;
+  background-color: aqua;
+  position: absolute;
+  top:0;
+  right: 250px;
+  z-index: 1;
+  display: block;
+  -webkit-transition: max-width .5s linear; 
+  -moz-transition: max-width .5s linear; 
+  -ms-transition: max-width .5s linear; 
+  -o-transition: max-width .5s linear; 
+  transition: max-width .5s linear;
+}
+.menu.escondido {
+  max-width: 0px;
+  pointer-events: none;
+}
 .container{
   background-color: #F3F3F3;
   max-width: 400px;
   width: 100%;
   height: 667px;
+  position: relative;
 }
 .topo{
   background-color: #FFFFFF;
