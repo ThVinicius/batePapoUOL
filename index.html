@@ -30,30 +30,29 @@
         <div class="entrar" onclick="login()"><h2>Entrar</h2></div>
       </div>
     </div>
-    <div class="menu escondido">
+    <div class="menu escondido transicao">
       <div class="tela1" onclick="esconder()"></div>
       <div class="tela2">
         <div class="tela2-topo">
           <h4>Escolha um contato para enviar mensagem:</h4>
         </div>
-        <div onclick="selecionar()" class="ajuste3 justify">
-          <div class="centralizar">
-            <ion-icon name="people-sharp"></ion-icon>
-            <h5>Todos</h5>
-          </div>
-          <ion-icon class="setinha" name="checkmark-sharp"></ion-icon>
-        </div>
         <div class="contatos"></div>
         <div class="ajuste">
           <h4>Escolha a visibilidade:</h4>
         </div>
-        <div class="ajuste2">
-          <ion-icon name="lock-open"></ion-icon>
-          <h5>Público</h5>
+        <div onclick="selecionarVisibilidade(this)" class="ajuste2">
+          <div class="centralizar">
+            <ion-icon name="lock-open"></ion-icon>
+            <h5>Público</h5>
+          </div>
+          <ion-icon class="setinha" name="checkmark-sharp"></ion-icon>
         </div>
-        <div class="ajuste3">
-          <ion-icon name="lock-closed"></ion-icon>
-          <h5>Reservadamente</h5>
+        <div onclick="selecionarVisibilidade(this)" class="ajuste3">
+          <div class="centralizar">
+            <ion-icon name="lock-closed"></ion-icon>
+            <h5>Reservadamente</h5>
+          </div>
+          <ion-icon class="setinha" name="checkmark-sharp"></ion-icon>
         </div>
       </div>
     </div>
@@ -64,19 +63,23 @@
       </div>
       <div class="chat"></div>
       <div class="caixaMensagem">
-        <div>
+        <div class="ajustesNaCaixa">
           <input
             type="text"
             class="mensagem"
             placeholder="Escreva aqui..."
-            required
+            required="required"
           />
           <ion-icon
             onclick="enviarMensagem()"
             name="paper-plane-outline"
           ></ion-icon>
         </div>
-        <div></div>
+        <div class="teste">
+          <h6>Enviando para</h6>
+          <h6 class="contato">Todos</h6>
+          <h6 class="visibilidade">(público)</h6>
+        </div>
       </div>
     </div>
 

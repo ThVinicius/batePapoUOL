@@ -1,4 +1,5 @@
-// let nome = prompt('Qual é seu nome?')
+let nomeContato
+let visibilidade
 let usuario
 function login() {
   document.querySelector('.loading').classList.remove('escondido')
@@ -117,10 +118,18 @@ function buscarContatos() {
 }
 function renderizarContatos(contatos) {
   const localizar = document.querySelector('.contatos')
-  localizar.innerHTML = ''
+  localizar.innerHTML = `
+    <div onclick="selecionarContato(this)">
+      <div>
+        <ion-icon name="people-sharp"></ion-icon>
+        <h5>Todos</h5>
+      </div>
+      <ion-icon class="setinha" name="checkmark-sharp"></ion-icon>
+    </div>
+  `
   for (let i = 0; i < contatos.length; i++) {
     localizar.innerHTML += `
-      <div onclick = "selecionar(this)">
+      <div onclick = "selecionarContato(this)">
         <div>
           <ion-icon name="person-circle"></ion-icon>
           <h5>${contatos[i].name}</h5>
@@ -132,11 +141,22 @@ function renderizarContatos(contatos) {
 }
 function enviarMensagem() {
   let mensagem = document.querySelector('.mensagem')
+  if (mensagem.value === '') {
+    return
+  }
+  let para = 'Todos'
+  let tipo = 'message'
+  if (nomeContato !== undefined) {
+    para = nomeContato
+  }
+  if (visibilidade === 'Reservadamente') {
+    tipo = 'private_message'
+  }
   let envio = {
     from: usuario.name,
-    to: 'todos',
+    to: para,
     text: mensagem.value,
-    type: 'message'
+    type: tipo
   }
   const response = axios.post(
     'https://mock-api.driven.com.br/api/v6/uol/messages',
@@ -168,6 +188,43 @@ function compararContatos(arr) {
     }
   }
 }
-function selecionar(elemento) {
-  elemento.querySelector('.setinha').classList.add('selecionado')
+function selecionarContato(elemento) {
+  const selecionado = document.querySelector('.selecionado1')
+  if (selecionado === null) {
+    elemento.querySelector('.setinha').classList.add('selecionado1')
+    nomeContato = elemento.querySelector('h5').innerHTML
+    document.querySelector('.contato').innerHTML = `${nomeContato}`
+  } else {
+    if (elemento.querySelector('.setinha').classList.contains('selecionado1')) {
+      elemento.querySelector('.setinha').classList.remove('selecionado1')
+      nomeContato = undefined
+    } else {
+      elemento.parentNode
+        .querySelector('.selecionado1')
+        .classList.remove('selecionado1')
+      elemento.querySelector('.setinha').classList.add('selecionado1')
+      nomeContato = elemento.querySelector('h5').innerHTML
+      document.querySelector('.contato').innerHTML = `${nomeContato}`
+    }
+  }
+}
+function selecionarVisibilidade(elemento) {
+  const selecionado = document.querySelector('.selecionado2')
+  if (selecionado === null) {
+    elemento.querySelector('.setinha').classList.add('selecionado2')
+    visibilidade = elemento.querySelector('h5').innerHTML
+    document.querySelector('.visibilidade').innerHTML = `(${visibilidade})`
+  } else {
+    if (elemento.querySelector('.setinha').classList.contains('selecionado2')) {
+      elemento.querySelector('.setinha').classList.remove('selecionado2')
+      visibilidade = undefined
+    } else {
+      elemento.parentNode
+        .querySelector('.selecionado2')
+        .classList.remove('selecionado2')
+      elemento.querySelector('.setinha').classList.add('selecionado2')
+      visibilidade = elemento.querySelector('h5').innerHTML
+      document.querySelector('.visibilidade').innerHTML = `(${visibilidade})`
+    }
+  }
 }
