@@ -8,19 +8,91 @@ body{
   justify-content: center;
   align-items: center;
 }
-.escondido{
+.centralizar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.justify{
+  justify-content: space-between;
+}
+.setinha{
+  height: 7px;
+  width: 9px;
+  padding-right: 27px;
+  color: #28BB25;
   display: none;
 }
-.menu{
+
+.telaLogin{
+  background-color: #ffffff;
+  height: 100vh;
   max-width: 400px;
   width: 100%;
-  height: 667px;
-  background-color: aqua;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.entrar{
+  background-color: #E7E7E7;
+  max-width: 109px;
+  width: 100%;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 9px;
+  cursor: pointer;
+}
+.login{
+  margin-top: 94px;
+  margin-bottom: 15px;
+  border: 1px solid #D7D7D7;
+  width: 261px;
+  height: 54px;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: 400;
+}
+.login::-webkit-input-placeholder{
+  color:#AEAEAE;
+  font-size: 18px;
+  text-align: center;
+  font-weight: 400;
+}
+.login::-moz-placeholder{
+  color:#AEAEAE;
+  font-size: 18px;
+  text-align: center;
+  font-weight: 400;
+}
+h2{
+  font-weight: 400;
+  font-size: 18px;
+  text-align: center;
+  color: #696969;
+}
+.telaInicial h3{
+  margin-top: 20px;
+}
+.loading{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.telaInicial img{
+  width: 130px;
+  height: 92px;
+  margin-top: 72px;
+}
+.menu{
   position: absolute;
-  top:0;
-  right: 250px;
+  max-width: 400px;
+  width: 100%;
+  height: 100vh;
   z-index: 1;
-  display: block;
+  display: flex;
   -webkit-transition: max-width .5s linear; 
   -moz-transition: max-width .5s linear; 
   -ms-transition: max-width .5s linear; 
@@ -31,21 +103,85 @@ body{
   max-width: 0px;
   pointer-events: none;
 }
-.container{
-  background-color: #F3F3F3;
+.selecionado{
+  display: flex;
+}
+.tela1{
+  max-width: 125px;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);;
+}
+.tela2{
+  max-width: 275px;
+  width: 100%;
+  height: 100vh;
+  padding-top: 40px;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+}
+.ajuste{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 26px 0;
+}
+.ajuste2,.ajuste3{
+  height: 5.39vh;
+  display: flex;
+  align-items: center;
+}
+.tela2 ion-icon{
+  height: 25px;
+  width: 25px;
+  padding-left: 20px;
+}
+.contatos div{
+  height: 5.39vh;
   max-width: 400px;
   width: 100%;
-  height: 667px;
-  position: relative;
+  display: flex;
+  align-items: center;
+}
+.contatos{
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+h4{
+  font-size: 16px;
+  font-weight: 700;
+  color: #000000;
+}
+h5{
+  padding-left: 7px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #000000;
+}
+.tela2-topo{
+  height: 12.59vh !important;
+  text-align: center;
+}
+.container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 .topo{
   background-color: #FFFFFF;
-  height: 80px;
+  height: 11.99vh;
+  max-width: 400px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 21px;
-  margin-bottom: 26px;
+  margin-bottom: 3.14vh;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
 }
 .topo ion-icon{
@@ -53,26 +189,27 @@ body{
   height: 45px;
 }
 .chat{
-  height: 481px;
+  max-width: 400px;
+  width: 100%;
+  height: 72.86vh;
   overflow-y: scroll;
 }
 p{
   font-size: 14px;
   font-weight: 400;
-  display: flex;
-  flex-wrap: wrap;
+  word-wrap: break-word;
 }
 .chat div{
   max-width: 400px;
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
   padding: 10px;
   border-radius: 2px;
   margin-bottom: 4px;
 }
 .caixaMensagem{
-  height: 80px;
+  height: 11.99vh;
+  max-width: 400px;
+  width: 100%;
   padding-top: 25px;
   box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);
   background-color: #FFFFFF;
@@ -87,17 +224,20 @@ p{
   height: 26px;
   width: 26px;
 }
-input{
+ion-icon{
+  cursor: pointer;
+}
+.mensagem{
   height: 30px;
   border: none;
   font-size: 18px;
   font-weight: 400;
   color: #000000;
 }
-textarea:focus, input:focus, select:focus {
+textarea:focus, .mensagem:focus, select:focus {
   outline: 0;
 }
-input::-webkit-input-placeholder{
+.mensagem::-webkit-input-placeholder{
   color: #000000;
   font-size: 18px;
   font-style: italic;
@@ -117,4 +257,7 @@ strong{
 }
 span{
   color: #afaeac;
+}
+.escondido{
+  display: none;
 }

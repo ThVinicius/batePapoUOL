@@ -14,16 +14,63 @@
     />
   </head>
   <body>
-    <div class="menu escondido"></div>
-    <div class="container">
+    <div class="telaInicial">
+      <div class="loading escondido">
+        <img src="./images/loading.gif" alt="loading" />
+        <h3>Entrando</h3>
+      </div>
+      <div class="telaLogin">
+        <img src="./images/logo 1.png" alt="Logo - bate papo Uol" />
+        <input
+          type="text"
+          class="login"
+          placeholder="Digite seu nome"
+          required
+        />
+        <div class="entrar" onclick="login()"><h2>Entrar</h2></div>
+      </div>
+    </div>
+    <div class="menu escondido">
+      <div class="tela1" onclick="esconder()"></div>
+      <div class="tela2">
+        <div class="tela2-topo">
+          <h4>Escolha um contato para enviar mensagem:</h4>
+        </div>
+        <div onclick="selecionar()" class="ajuste3 justify">
+          <div class="centralizar">
+            <ion-icon name="people-sharp"></ion-icon>
+            <h5>Todos</h5>
+          </div>
+          <ion-icon class="setinha" name="checkmark-sharp"></ion-icon>
+        </div>
+        <div class="contatos"></div>
+        <div class="ajuste">
+          <h4>Escolha a visibilidade:</h4>
+        </div>
+        <div class="ajuste2">
+          <ion-icon name="lock-open"></ion-icon>
+          <h5>Público</h5>
+        </div>
+        <div class="ajuste3">
+          <ion-icon name="lock-closed"></ion-icon>
+          <h5>Reservadamente</h5>
+        </div>
+      </div>
+    </div>
+    <div class="container escondido">
       <div class="topo">
         <img src="./images/logo 1.png" />
-        <ion-icon name="people-sharp"></ion-icon>
+        <ion-icon onclick="esconder()" name="people-sharp"></ion-icon>
       </div>
       <div class="chat"></div>
       <div class="caixaMensagem">
         <div>
-          <input type="text" placeholder="Escreva aqui..." />
+          <input
+            type="text"
+            class="mensagem"
+            placeholder="Escreva aqui..."
+            required
+          />
           <ion-icon
             onclick="enviarMensagem()"
             name="paper-plane-outline"
