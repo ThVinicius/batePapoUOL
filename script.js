@@ -1,6 +1,10 @@
 let nomeContato
 let visibilidade
 let usuario
+let identificador = 0
+let mensagens = []
+let contatos = []
+
 function login() {
   document.querySelector('.loading').classList.remove('escondido')
   document.querySelector('.telaLogin').classList.add('escondido')
@@ -13,47 +17,70 @@ function login() {
   enviar.then(tratarSucesso)
   enviar.catch(tratarFalha)
 }
-let mensagens = []
-let contatos = []
-// entrarSala()
+
 function criarChat() {
   axios
     .get('https://mock-api.driven.com.br/api/v6/uol/messages')
     .then(function (response) {
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < response.data.length; i++) {
         mensagens.push(response.data[i])
       }
       renderizarMensagens(mensagens)
     })
 }
-function verificarArray() {
+
+function verificarChat() {
   axios
     .get('https://mock-api.driven.com.br/api/v6/uol/messages')
     .then(function (response) {
-      if (
-        mensagens[0].from !== response.data[0].from ||
-        mensagens[0].text !== response.data[0].text ||
-        mensagens[0].time !== response.data[0].time ||
-        mensagens[0].to !== response.data[0].to ||
-        mensagens[0].type !== response.data[0].type
-      ) {
-        for (let i = mensagens.length; i > 0; i--) {
-          mensagens.pop()
+      function verificaSeAsMensagensSaoIguais(num) {
+        if (
+          mensagens[mensagens.length - 1 + num].from !==
+            response.data[response.data.length - 1 + num].from ||
+          mensagens[mensagens.length - 1 + num].text !==
+            response.data[response.data.length - 1 + num].text ||
+          mensagens[mensagens.length - 1 + num].time !==
+            response.data[response.data.length - 1 + num].time ||
+          mensagens[mensagens.length - 1 + num].to !==
+            response.data[response.data.length - 1 + num].to ||
+          mensagens[mensagens.length - 1 + num].type !==
+            response.data[response.data.length - 1 + num].type
+        ) {
+          return false
         }
-        for (let i = 0; i < response.data.length; i++) {
-          mensagens.push(response.data[i])
+        return true
+      }
+      if (!verificaSeAsMensagensSaoIguais(0)) {
+        const chat = document.querySelector('.chat')
+        let numeroMensagensNovas = 0
+        let mensagensNovas = []
+        for (let i = 0; i < mensagens.length; i++) {
+          if (
+            mensagens[99].time === response.data[99 - i].time &&
+            mensagens[99].text === response.data[99 - i].text
+          ) {
+            break
+          }
+          numeroMensagensNovas++
         }
-        renderizarMensagens(mensagens)
+        for (let i = numeroMensagensNovas; i > 0; i--) {
+          chat.querySelector('div:first-child').remove()
+          mensagensNovas.push(response.data[100 - i])
+        }
+        renderizarMensagens(mensagensNovas)
+        for (let i = 0; i < numeroMensagensNovas; i++) {
+          mensagens.shift()
+          mensagens.push(mensagensNovas[i])
+        }
       }
     })
 }
+
 function tratarSucesso() {
   document.querySelector('.login').value = ''
-  document.querySelector('.loading').classList.add('escondido')
-  document.querySelector('.container').classList.remove('escondido')
   criarChat()
   buscarContatos()
-  setInterval(verificarArray, 3000)
+  setInterval(verificarChat, 3000)
   setInterval(function () {
     const reenviar = axios.post(
       'https://mock-api.driven.com.br/api/v6/uol/status',
@@ -63,7 +90,10 @@ function tratarSucesso() {
     reenviar.catch()
   }, 3500)
   setInterval(buscarContatos, 10000)
+  document.querySelector('.loading').classList.add('escondido')
+  document.querySelector('.container').classList.remove('escondido')
 }
+
 function tratarFalha() {
   document.querySelector('.loading').classList.add('escondido')
   document.querySelector('.telaLogin').classList.remove('escondido')
@@ -72,7 +102,6 @@ function tratarFalha() {
 
 function renderizarMensagens(mensagens) {
   let localizar = document.querySelector('.chat')
-  localizar.innerHTML = ''
   for (let i = 0; i < mensagens.length; i++) {
     if (mensagens[i].type === 'status') {
       localizar.innerHTML += `
@@ -101,24 +130,65 @@ function renderizarMensagens(mensagens) {
     .scrollIntoView({ behavior: 'smooth' })
 }
 function buscarContatos() {
-  if (contatos.length > 0) {
-    for (let i = contatos.length; i > 0; i--) {
-      contatos.pop()
-    }
-  }
+  identificador++
   const promisse = axios.get(
     'https://mock-api.driven.com.br/api/v6/uol/participants'
   )
   promisse.then(function (response) {
-    for (let i = 0; i < response.data.length; i++) {
-      contatos.push(response.data[i])
+    if (contatos.length === 0) {
+      for (let i = 0; i < response.data.length; i++) {
+        contatos.push(response.data[i])
+      }
+      for (let i = 0; i < contatos.length; i++) {
+        contatos[i].id = `id${identificador}${i}`
+      }
+      renderizarContatos(contatos)
+      return
     }
-    renderizarContatos(contatos)
+    const elementosQueIraoFicar = contatos.filter(function (arr) {
+      for (let i = 0; i < response.data.length; i++) {
+        if (arr.name === response.data[i].name) {
+          return true
+        }
+      }
+      return false
+    })
+    const removerContatosQueSairao = contatos.filter(function (arr) {
+      for (let i = 0; i < elementosQueIraoFicar.length; i++) {
+        if (elementosQueIraoFicar[i].name === arr.name) {
+          return false
+        }
+      }
+      return true
+    })
+    const renderizarNovosContatos = response.data.filter(function (arr) {
+      for (let i = 0; i < elementosQueIraoFicar.length; i++) {
+        if (elementosQueIraoFicar[i].name === arr.name) {
+          return false
+        }
+      }
+      return true
+    })
+    for (let i = 0; i < renderizarNovosContatos.length; i++) {
+      renderizarNovosContatos[i].id = `id${identificador}${i}`
+    }
+    for (let i = 0; i < removerContatosQueSairao.length; i++) {
+      document.querySelector(`.${removerContatosQueSairao[i].id}`).remove()
+    }
+    renderizarContatos(renderizarNovosContatos)
+    contatos = []
+    for (let i = 0; i < elementosQueIraoFicar.length; i++) {
+      contatos.push(elementosQueIraoFicar[i])
+    }
+    for (let i = 0; i < renderizarNovosContatos.length; i++) {
+      contatos.push(renderizarNovosContatos[i])
+    }
   })
 }
 function renderizarContatos(contatos) {
   const localizar = document.querySelector('.contatos')
-  localizar.innerHTML = `
+  if (identificador === 1) {
+    localizar.innerHTML = `
     <div onclick="selecionarContato(this)">
       <div>
         <ion-icon name="people-sharp"></ion-icon>
@@ -127,9 +197,10 @@ function renderizarContatos(contatos) {
       <ion-icon class="setinha" name="checkmark-sharp"></ion-icon>
     </div>
   `
+  }
   for (let i = 0; i < contatos.length; i++) {
     localizar.innerHTML += `
-      <div onclick = "selecionarContato(this)">
+      <div onclick = "selecionarContato(this)" class = "${contatos[i].id}">
         <div>
           <ion-icon name="person-circle"></ion-icon>
           <h5>${contatos[i].name}</h5>
@@ -163,7 +234,7 @@ function enviarMensagem() {
     envio
   )
   mensagem.value = ''
-  response.then(verificarArray)
+  response.then(verificarChat)
   response.catch(atualizarPagina)
 }
 function atualizarPagina() {
@@ -181,13 +252,13 @@ document.addEventListener('keypress', function (e) {
     btn.click()
   }
 })
-function compararContatos(arr) {
-  if (contatos[0] !== arr.data[0]) {
-    for (let i = 0; i < contatos.length; i++) {
-      contatos.shift()
-    }
-  }
-}
+// function compararContatos(arr) {
+//   if (contatos[0] !== arr.data[0]) {
+//     for (let i = 0; i < contatos.length; i++) {
+//       contatos.shift()
+//     }
+//   }
+// }
 function selecionarContato(elemento) {
   const selecionado = document.querySelector('.selecionado1')
   if (selecionado === null) {

@@ -7,6 +7,7 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #e5e5e5;
 }
 h6{
   display: inline-block;
@@ -36,6 +37,7 @@ h6{
   background-color: #ffffff;
   height: 100vh;
   max-width: 400px;
+  padding: 0 69.5px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -102,17 +104,6 @@ h2{
   z-index: 1;
   display: flex;
 }
-.transicao{
-  -webkit-transition: max-width 1s linear; 
-  -moz-transition: max-width 1s linear; 
-  -ms-transition: max-width 1s linear; 
-  -o-transition: max-width 1s linear; 
-  transition: max-width 1s linear;
-}
-.menu.escondido.transicao, .tela1.escondido.transicao, .tela2.escondido.transicao {
-  max-width: 0px;
-  pointer-events: none;
-}
 .selecionado1, .selecionado2{
   display: flex;
 }
@@ -158,7 +149,8 @@ h2{
   cursor: pointer;
 }
 .contatos{
-  height: auto;
+  min-height: 25vh;
+  max-height: 50vh;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
@@ -179,6 +171,7 @@ h5{
   text-align: center;
 }
 .container{
+  background-color: #f3f3f2;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -253,6 +246,12 @@ textarea:focus, .mensagem:focus, select:focus {
   outline: 0;
 }
 .mensagem::-webkit-input-placeholder{
+  color: #000000;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+}
+.mensagem::-moz-placeholder{
   color: #000000;
   font-size: 18px;
   font-style: italic;
