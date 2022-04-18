@@ -6,10 +6,14 @@ let mensagens = []
 let contatos = []
 
 function login() {
-  document.querySelector('.loading').classList.remove('escondido')
-  document.querySelector('.telaLogin').classList.add('escondido')
   let nome = document.querySelector('.login')
   usuario = { name: nome.value }
+  if (usuario.name.trim() === '') {
+    nome.value = ''
+    return
+  }
+  document.querySelector('.loading').classList.remove('escondido')
+  document.querySelector('.telaLogin').classList.add('escondido')
   const enviar = axios.post(
     'https://mock-api.driven.com.br/api/v6/uol/participants',
     usuario
@@ -133,7 +137,6 @@ function renderizarMensagens(mensagens) {
      `
     }
     if (document.querySelectorAll('.chat > div').length > 99) {
-      console.log(document.querySelectorAll('.chat > div').length)
       document.querySelector('.chat').querySelector('div:first-child').remove()
     }
   }
@@ -224,7 +227,7 @@ function renderizarContatos(contatos) {
 }
 function enviarMensagem() {
   let mensagem = document.querySelector('.mensagem')
-  if (mensagem.value === '') {
+  if (mensagem.value.trim() === '') {
     return
   }
   if (document.querySelector('.selecionado1') === null) {
