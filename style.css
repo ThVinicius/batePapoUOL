@@ -2,12 +2,17 @@
 *{
   box-sizing: border-box;
 }
-body{
+h2,h3,h4,h5,h6,p{
   font-family: 'Roboto', sans-serif;
+}
+body{
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #e5e5e5;
+}
+h1{
+  display: inline
 }
 h6{
   display: inline-block;
@@ -63,18 +68,21 @@ h6{
   border-radius: 4px;
   font-size: 18px;
   font-weight: 400;
+  font-family: 'Roboto', sans-serif;
 }
 .login::-webkit-input-placeholder{
   color:#AEAEAE;
   font-size: 18px;
   text-align: center;
   font-weight: 400;
+  font-family: 'Roboto', sans-serif;
 }
 .login::-moz-placeholder{
   color:#AEAEAE;
   font-size: 18px;
   text-align: center;
   font-weight: 400;
+  font-family: 'Roboto', sans-serif;
 }
 h2{
   font-weight: 400;
@@ -241,6 +249,7 @@ ion-icon{
   font-size: 18px;
   font-weight: 400;
   color: #000000;
+  font-family: 'Roboto', sans-serif;
 }
 textarea:focus, .mensagem:focus, select:focus {
   outline: 0;
@@ -250,12 +259,14 @@ textarea:focus, .mensagem:focus, select:focus {
   font-size: 18px;
   font-style: italic;
   font-weight: 400;
+  font-family: 'Roboto', sans-serif;
 }
 .mensagem::-moz-placeholder{
   color: #000000;
   font-size: 18px;
   font-style: italic;
   font-weight: 400;
+  font-family: 'Roboto', sans-serif;
 }
 .status{
   background-color: #DCDCDC;
@@ -269,9 +280,9 @@ textarea:focus, .mensagem:focus, select:focus {
 strong{
   font-weight: 700;
 }
-span{
+/* span{
   color: #afaeac;
-}
+} */
 .escondido{
   display: none;
 }

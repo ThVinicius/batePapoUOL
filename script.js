@@ -88,7 +88,7 @@ function tratarSucesso() {
     )
     reenviar.then()
     reenviar.catch()
-  }, 3500)
+  }, 3000)
   setInterval(buscarContatos, 10000)
   document.querySelector('.loading').classList.add('escondido')
   document.querySelector('.container').classList.remove('escondido')
@@ -106,21 +106,21 @@ function renderizarMensagens(mensagens) {
     if (mensagens[i].type === 'status') {
       localizar.innerHTML += `
         <div class = "status">
-          <p><span>(${mensagens[i].time})&nbsp;&nbsp;&nbsp;</span><strong>${mensagens[i].from}</strong>&nbsp;&nbsp;${mensagens[i].text}</p>
+          <p><span style = "color: #afaeac;">(${mensagens[i].time})&nbsp;&nbsp;&nbsp;</span><span class = "nomeContato" onclick = "mensagemPrivada(this)" style = "cursor: pointer;"><strong>${mensagens[i].from}</strong></span>&nbsp;&nbsp;${mensagens[i].text}</p>
         </div>
       `
     }
     if (mensagens[i].type === 'message') {
       localizar.innerHTML += `
        <div class = "message">
-         <p><span>(${mensagens[i].time})&nbsp;&nbsp;&nbsp;</span><strong> ${mensagens[i].from} </strong>&nbsp;para&nbsp;<strong>${mensagens[i].to}:</strong>&nbsp;${mensagens[i].text}</p>
+         <p><span style = "color: #afaeac;">(${mensagens[i].time})&nbsp;&nbsp;&nbsp;</span><span class = "nomeContato" onclick = "mensagemPrivada(this)" style = "cursor: pointer;"><strong>${mensagens[i].from}</strong></span>&nbsp;para&nbsp;<strong>${mensagens[i].to}:</strong>&nbsp;${mensagens[i].text}</p>
        </div>
      `
     }
     if (mensagens[i].type === 'private_message') {
       localizar.innerHTML += `
        <div class = "private_message">
-         <p><span>(${mensagens[i].time})&nbsp;&nbsp;&nbsp;</span><strong>${mensagens[i].from}</strong>&nbsp;reservadamente&nbsp;para&nbsp;<strong>${mensagens[i].to}:</strong>&nbsp;${mensagens[i].text}</p>
+         <p><span style = "color: #afaeac;">(${mensagens[i].time})&nbsp;&nbsp;&nbsp;</span><span class = "nomeContato" onclick = "mensagemPrivada(this)" style = "cursor: pointer;"><strong>${mensagens[i].from}</strong></span>&nbsp;reservadamente&nbsp;para&nbsp;<strong>${mensagens[i].to}:</strong>&nbsp;${mensagens[i].text}</p>
        </div>
      `
     }
@@ -194,7 +194,7 @@ function renderizarContatos(contatos) {
         <ion-icon name="people-sharp"></ion-icon>
         <h5>Todos</h5>
       </div>
-      <ion-icon class="setinha" name="checkmark-sharp"></ion-icon>
+      <ion-icon class="setinha selecionado1 defaultContatos" name="checkmark-sharp"></ion-icon>
     </div>
   `
   }
@@ -213,6 +213,22 @@ function renderizarContatos(contatos) {
 function enviarMensagem() {
   let mensagem = document.querySelector('.mensagem')
   if (mensagem.value === '') {
+    return
+  }
+  if (document.querySelector('.selecionado1') === null) {
+    document.querySelector('.defaultContatos').classList.add('selecionado1')
+    document.querySelector('.selecionado2').classList.remove('selecionado2')
+    documento
+      .querySelector('.defaultVisibilidade')
+      .classList.add('selecionado2')
+    alert(
+      `${nomeContato} saiu da sala\nSua mensagem não será enviada\n\nConfiguração da mensagem: Todos (público)`
+    )
+    visibilidade = 'público'
+    document.querySelector('.visibilidade').innerHTML = '(público)'
+    document.querySelector('.contato').innerHTML = `Todos`
+    nomeContato = 'Todos'
+    mensagem.value = ''
     return
   }
   let para = 'Todos'
@@ -252,50 +268,63 @@ document.addEventListener('keypress', function (e) {
     btn.click()
   }
 })
-// function compararContatos(arr) {
-//   if (contatos[0] !== arr.data[0]) {
-//     for (let i = 0; i < contatos.length; i++) {
-//       contatos.shift()
-//     }
-//   }
-// }
 function selecionarContato(elemento) {
-  const selecionado = document.querySelector('.selecionado1')
-  if (selecionado === null) {
+  if (elemento.querySelector('.setinha').classList.contains('selecionado1')) {
+    elemento.querySelector('.setinha').classList.remove('selecionado1')
+    document.querySelector('.defaultContatos').classList.add('selecionado1')
+    document.querySelector('.contato').innerHTML = `Todos`
+    nomeContato = 'Todos'
+  } else {
+    elemento.parentNode
+      .querySelector('.selecionado1')
+      .classList.remove('selecionado1')
     elemento.querySelector('.setinha').classList.add('selecionado1')
     nomeContato = elemento.querySelector('h5').innerHTML
     document.querySelector('.contato').innerHTML = `${nomeContato}`
-  } else {
-    if (elemento.querySelector('.setinha').classList.contains('selecionado1')) {
-      elemento.querySelector('.setinha').classList.remove('selecionado1')
-      nomeContato = undefined
-    } else {
-      elemento.parentNode
-        .querySelector('.selecionado1')
-        .classList.remove('selecionado1')
-      elemento.querySelector('.setinha').classList.add('selecionado1')
-      nomeContato = elemento.querySelector('h5').innerHTML
-      document.querySelector('.contato').innerHTML = `${nomeContato}`
-    }
   }
 }
 function selecionarVisibilidade(elemento) {
-  const selecionado = document.querySelector('.selecionado2')
-  if (selecionado === null) {
+  if (elemento.querySelector('.setinha').classList.contains('selecionado2')) {
+    elemento.querySelector('.setinha').classList.remove('selecionado2')
+    document.querySelector('.defaultVisibilidade').classList.add('selecionado2')
+    visibilidade = 'público'
+    document.querySelector('.visibilidade').innerHTML = '(público)'
+  } else {
+    elemento.parentNode
+      .querySelector('.selecionado2')
+      .classList.remove('selecionado2')
     elemento.querySelector('.setinha').classList.add('selecionado2')
     visibilidade = elemento.querySelector('h5').innerHTML
     document.querySelector('.visibilidade').innerHTML = `(${visibilidade})`
-  } else {
-    if (elemento.querySelector('.setinha').classList.contains('selecionado2')) {
-      elemento.querySelector('.setinha').classList.remove('selecionado2')
-      visibilidade = undefined
-    } else {
-      elemento.parentNode
-        .querySelector('.selecionado2')
-        .classList.remove('selecionado2')
-      elemento.querySelector('.setinha').classList.add('selecionado2')
-      visibilidade = elemento.querySelector('h5').innerHTML
+  }
+}
+function mensagemPrivada(elemento) {
+  const nomeContatoPrivado = elemento.querySelector('strong').innerHTML
+  for (let i = 0; i < contatos.length; i++) {
+    if (nomeContatoPrivado === contatos[i].name) {
+      nomeContato = nomeContatoPrivado
+      visibilidade = 'Reservadamente'
+      document.querySelector('.contato').innerHTML = `${nomeContato}`
       document.querySelector('.visibilidade').innerHTML = `(${visibilidade})`
+      if (document.querySelector('.selecionado1') === null) {
+        document
+          .querySelector('.contatos')
+          .querySelector(`.${contatos[i].id}`)
+          .querySelector('.setinha')
+          .classList.add('selecionado1')
+      }
+      document.querySelector('.selecionado1').classList.remove('selecionado1')
+      document
+        .querySelector('.contatos')
+        .querySelector(`.${contatos[i].id}`)
+        .querySelector('.setinha')
+        .classList.add('selecionado1')
+      document.querySelector('.selecionado2').classList.remove('selecionado2')
+      document
+        .querySelector('.ajuste3')
+        .querySelector('.setinha')
+        .classList.add('selecionado2')
+      return
     }
   }
 }
