@@ -51,7 +51,6 @@ function verificarChat() {
         return true
       }
       if (!verificaSeAsMensagensSaoIguais(0)) {
-        const chat = document.querySelector('.chat')
         let numeroMensagensNovas = 0
         let mensagensNovas = []
         for (let i = 0; i < mensagens.length; i++) {
@@ -64,7 +63,6 @@ function verificarChat() {
           numeroMensagensNovas++
         }
         for (let i = numeroMensagensNovas; i > 0; i--) {
-          chat.querySelector('div:first-child').remove()
           mensagensNovas.push(response.data[100 - i])
         }
         renderizarMensagens(mensagensNovas)
@@ -88,7 +86,7 @@ function tratarSucesso() {
     )
     reenviar.then()
     reenviar.catch()
-  }, 3000)
+  }, 4200)
   setInterval(buscarContatos, 10000)
   document.querySelector('.loading').classList.add('escondido')
   document.querySelector('.container').classList.remove('escondido')
@@ -103,6 +101,16 @@ function tratarFalha() {
 function renderizarMensagens(mensagens) {
   let localizar = document.querySelector('.chat')
   for (let i = 0; i < mensagens.length; i++) {
+    if (mensagens[i].type === 'private_message') {
+      if (mensagens[i].to !== 'Todos') {
+        if (mensagens[i].to !== usuario.name) {
+          if (mensagens[i].from !== usuario.name) {
+            continue
+          }
+        }
+      }
+    }
+
     if (mensagens[i].type === 'status') {
       localizar.innerHTML += `
         <div class = "status">
@@ -123,6 +131,10 @@ function renderizarMensagens(mensagens) {
          <p><span style = "color: #afaeac;">(${mensagens[i].time})&nbsp;&nbsp;&nbsp;</span><span class = "nomeContato" onclick = "mensagemPrivada(this)" style = "cursor: pointer;"><strong>${mensagens[i].from}</strong></span>&nbsp;reservadamente&nbsp;para&nbsp;<strong>${mensagens[i].to}:</strong>&nbsp;${mensagens[i].text}</p>
        </div>
      `
+    }
+    if (document.querySelectorAll('.chat > div').length > 99) {
+      console.log(document.querySelectorAll('.chat > div').length)
+      document.querySelector('.chat').querySelector('div:first-child').remove()
     }
   }
   localizar
@@ -218,9 +230,7 @@ function enviarMensagem() {
   if (document.querySelector('.selecionado1') === null) {
     document.querySelector('.defaultContatos').classList.add('selecionado1')
     document.querySelector('.selecionado2').classList.remove('selecionado2')
-    documento
-      .querySelector('.defaultVisibilidade')
-      .classList.add('selecionado2')
+    document.querySelector('.defaultVisibilidade').classList.add('selecionado2')
     alert(
       `${nomeContato} saiu da sala\nSua mensagem não será enviada\n\nConfiguração da mensagem: Todos (público)`
     )
